@@ -9,10 +9,24 @@ from .views import (
 
 
 urlpatterns = [
-    path("room-list-and-create/", RoomListCreateView.as_view()),
-    path("create-and-list-booking/", BookingListCreateView.as_view()),
-    path("update-delete-and-view-booking/<int:pk>/", BookingDetailUpdateView.as_view()),
-    path("room-availability/", RoomAvailabilityView.as_view()),
+    path(
+        "room-list-and-create/",
+        RoomListCreateView.as_view(),
+        name="room_list_and_create",
+    ),
+    path(
+        "create-and-list-booking/",
+        BookingListCreateView.as_view(),
+        name="create_and_list_booking",
+    ),
+    path(
+        "update-delete-and-view-booking/<int:pk>/",
+        BookingDetailUpdateView.as_view(),
+        name="update_delete_and_view_booking",
+    ),
+    path(
+        "room-availability/", RoomAvailabilityView.as_view(), name="room_availability"
+    ),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

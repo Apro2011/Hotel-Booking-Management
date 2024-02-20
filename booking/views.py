@@ -10,7 +10,7 @@ from hotel_core.permissions import IsAuthenticated, IsAdminUser
 
 # Create your views here.
 class RoomListCreateView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         bookings = Room.objects.all().order_by("-room_no")
@@ -47,7 +47,7 @@ class RoomListCreateView(APIView):
 
 
 class BookingListCreateView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         bookings = Booking.objects.all().order_by("id")
@@ -115,7 +115,7 @@ class BookingListCreateView(APIView):
 
 
 class BookingDetailUpdateView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, pk):
         try:
@@ -217,7 +217,7 @@ class RoomAvailabilityView(APIView):
                     ],
                     "status": "Failure",
                 },
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_417_EXPECTATION_FAILED,
             )
 
         try:
@@ -232,7 +232,19 @@ class RoomAvailabilityView(APIView):
                     ],
                     "status": "Failure",
                 },
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_406_NOT_ACCEPTABLE,
+            )
+
+        if check_out_date < check_in_date:
+            return Response(
+                {
+                    "data": [],
+                    "error": [
+                        "Invalid dates. You can't go from here if you are not here. We don't allow ghosts to live here."
+                    ],
+                    "status": "Failure",
+                },
+                status=status.HTTP_409_CONFLICT,
             )
 
         if room_type not in Room.ROOM_TYPES:
@@ -244,7 +256,7 @@ class RoomAvailabilityView(APIView):
                     ],
                     "status": "Failure",
                 },
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_406_NOT_ACCEPTABLE,
             )
 
         if room_type == "SB":

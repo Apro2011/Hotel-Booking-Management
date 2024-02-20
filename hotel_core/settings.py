@@ -87,12 +87,11 @@ WSGI_APPLICATION = "hotel_core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("NAME"),
-        "USER": "biswasaprotim1983",
-        "PASSWORD": os.getenv("PASSWORD"),
-        "HOST": os.getenv("HOST"),
+        "NAME": "hoteldb",
+        "USER": "hoteluser",
+        "PASSWORD": "hotelpassword",
+        "HOST": "localhost",
         "PORT": "5432",
-        "OPTIONS": {"sslmode": "require"},
     }
 }
 

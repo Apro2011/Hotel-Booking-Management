@@ -79,7 +79,7 @@ class LoginAndUserDetailView(APIView):
 
 
 class LogoutUserView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
         try:
