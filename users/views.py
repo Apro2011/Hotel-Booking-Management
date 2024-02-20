@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
 # Create your views here.
@@ -78,6 +79,8 @@ class LoginAndUserDetailView(APIView):
 
 
 class LogoutUserView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
     def post(self, request, format=None):
         try:
             refresh_token = request.data["refresh_token"]

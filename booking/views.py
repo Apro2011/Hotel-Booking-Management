@@ -10,6 +10,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 # Create your views here.
 class RoomListCreateView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
     def get(self, request, format=None):
         bookings = Room.objects.all().order_by("-room_no")
         serializer = RoomSerializer(bookings, many=True)
@@ -45,6 +47,8 @@ class RoomListCreateView(APIView):
 
 
 class BookingListCreateView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
     def get(self, request, format=None):
         bookings = Booking.objects.all().order_by("id")
         serializer = BookingSerializer(bookings, many=True)
@@ -111,6 +115,8 @@ class BookingListCreateView(APIView):
 
 
 class BookingDetailUpdateView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
     def get_object(self, pk):
         try:
             return Booking.objects.get(pk=pk)
@@ -195,6 +201,8 @@ class BookingDetailUpdateView(APIView):
 
 
 class RoomAvailabilityView(APIView):
+    permission_classes = [IsAdminUser]
+
     def get(self, request, format=None):
         check_in_date = request.query_params.get("check_in_date")
         check_out_date = request.query_params.get("check_out_date")
