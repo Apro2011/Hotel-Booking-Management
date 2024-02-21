@@ -160,6 +160,6 @@ SIMPLE_JWT = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
-        "LOCATION": "my-memcache:11211",
+        "LOCATION": "memcached:11211",  # Change memcached to 127.0.0.1 when run locally
     }
 }
