@@ -24,7 +24,7 @@ class IsAdminUser(IsAdminUser):
 
     message = {
         "data": [],
-        "errors": ["Only admin users have permission to view this!"],
+        "errors": ["Only admin users have permission to use this feature!"],
         "status": "Failure",
     }
 

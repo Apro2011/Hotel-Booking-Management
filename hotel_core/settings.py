@@ -87,11 +87,12 @@ WSGI_APPLICATION = "hotel_core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "hoteldb",
-        "USER": "hoteluser",
-        "PASSWORD": "hotelpassword",
-        "HOST": "localhost",
+        "NAME": os.getenv("NAME"),
+        "USER": "biswasaprotim1983",
+        "PASSWORD": os.getenv("PASSWORD"),
+        "HOST": os.getenv("HOST"),
         "PORT": "5432",
+        "OPTIONS": {"sslmode": "require"},
     }
 }
 
@@ -153,4 +154,12 @@ SIMPLE_JWT = {
         "Bearer",
         "JWT",
     ),
+}
+
+# Cache settings
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": "my-memcache:11211",
+    }
 }

@@ -6,12 +6,15 @@ from rest_framework import status
 from django.http import Http404
 from datetime import datetime
 from hotel_core.permissions import IsAuthenticated, IsAdminUser
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 # Create your views here.
 class RoomListCreateView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
+    @method_decorator(cache_page(60 * 15))
     def get(self, request, format=None):
         bookings = Room.objects.all().order_by("-room_no")
         serializer = RoomSerializer(bookings, many=True)
@@ -49,6 +52,7 @@ class RoomListCreateView(APIView):
 class BookingListCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @method_decorator(cache_page(60 * 15))
     def get(self, request, format=None):
         bookings = Booking.objects.all().order_by("id")
         serializer = BookingSerializer(bookings, many=True)
@@ -123,6 +127,7 @@ class BookingDetailUpdateView(APIView):
         except Booking.DoesNotExist:
             raise Http404
 
+    @method_decorator(cache_page(60 * 15))
     def get(self, request, pk, format=None):
         try:
             booking = self.get_object(pk=pk)
@@ -203,6 +208,7 @@ class BookingDetailUpdateView(APIView):
 class RoomAvailabilityView(APIView):
     permission_classes = [IsAdminUser]
 
+    @method_decorator(cache_page(60 * 15))
     def get(self, request, format=None):
         check_in_date = request.query_params.get("check_in_date")
         check_out_date = request.query_params.get("check_out_date")

@@ -18,16 +18,42 @@ class BaseTestCase(APITestCase):
 
 
 class TestRoomListCreateView(BaseTestCase):
+
+    # Only Admin users can create and list rooms
     def test_create_room(self):
         self.room_data = {
             "room_type": Room.SINGLE_BED,
         }
         url = reverse("room_list_and_create")
         response = self.client.post(url, data=self.room_data)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username="admin",
+            password="12345",
+            email="admin@example.com",
+            is_staff=True,
+        )
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(url, data=self.room_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_list_room(self):
         url = reverse("room_list_and_create")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username="admin",
+            password="12345",
+            email="admin@example.com",
+            is_staff=True,
+        )
+        self.client.force_authenticate(user=self.user)
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

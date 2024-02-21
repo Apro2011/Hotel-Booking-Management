@@ -9,6 +9,8 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
+pymemcache = "*"
+setuptools = "*"
 
 [dev-packages]
 
