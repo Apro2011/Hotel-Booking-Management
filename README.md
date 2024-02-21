@@ -52,3 +52,9 @@
     a. Get Request: You should provide query_params
         -> ?check_in_date=2024-01-07&check_out_date=2024-01-12&room_type=SB
         this way. And without providing any of the params, error will be shown.
+
+## Features
+1. Custom Permission Classes
+2. Cache
+3. Booking App unit tests
+4. Throttling 4/min

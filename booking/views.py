@@ -8,11 +8,13 @@ from datetime import datetime
 from hotel_core.permissions import IsAuthenticated, IsAdminUser
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from rest_framework.throttling import UserRateThrottle
 
 
 # Create your views here.
 class RoomListCreateView(APIView):
     permission_classes = [IsAdminUser]
+    throttle_classes = [UserRateThrottle]
 
     @method_decorator(cache_page(60 * 15))
     def get(self, request, format=None):
@@ -51,6 +53,7 @@ class RoomListCreateView(APIView):
 
 class BookingListCreateView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
 
     @method_decorator(cache_page(60 * 15))
     def get(self, request, format=None):
@@ -120,6 +123,7 @@ class BookingListCreateView(APIView):
 
 class BookingDetailUpdateView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
 
     def get_object(self, pk):
         try:
@@ -207,6 +211,7 @@ class BookingDetailUpdateView(APIView):
 
 class RoomAvailabilityView(APIView):
     permission_classes = [IsAdminUser]
+    throttle_classes = [UserRateThrottle]
 
     @method_decorator(cache_page(60 * 15))
     def get(self, request, format=None):
